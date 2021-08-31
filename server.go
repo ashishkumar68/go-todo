@@ -2,30 +2,18 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 
+	"github.com/ashishkumar68/go-todo/controller"
 	"github.com/gorilla/mux"
 )
-
-func createTaskHandler(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "POST a new task")
-}
-
-func getTaskHandler(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "GET an existing task")
-}
-
-func getTasksList(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "GET current tasks list")
-}
 
 func main() {
 	port := "8080"
 	r := mux.NewRouter()
-	r.HandleFunc("/api/tasks", createTaskHandler).Methods("POST")
-	r.HandleFunc("/api/tasks/{taskId}", getTaskHandler).Methods("GET")
-	r.HandleFunc("/api/tasks", getTasksList).Methods("GET")
+	r.HandleFunc("/api/tasks", controller.CreateTaskHandler).Methods("POST")
+	r.HandleFunc("/api/tasks/{taskId}", controller.GetTaskHandler).Methods("GET")
+	r.HandleFunc("/api/tasks", controller.GetTasksList).Methods("GET")
 
 	fmt.Println("running server on port", port)
 	http.Handle("/", r)
