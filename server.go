@@ -3,12 +3,23 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/ashishkumar68/go-todo/controller"
+	"github.com/ashishkumar68/go-todo/model"
 	"github.com/gorilla/mux"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
+func runMigration() {
+	db, _ := gorm.Open(mysql.Open(os.Getenv("DB_DSN")), &gorm.Config{})
+	db.AutoMigrate(&model.Task{})
+	fmt.Println("Migrations were executed successully.")
+}
+
 func main() {
+	go runMigration()
 	port := "8080"
 	r := mux.NewRouter()
 	r.HandleFunc("/api/tasks", controller.CreateTaskHandler).Methods("POST")

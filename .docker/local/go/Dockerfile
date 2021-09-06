@@ -1,6 +1,20 @@
 FROM golang:1.17
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install git curl vim nano htop -y
+RUN buildDeps=" \
+        lsb-release \
+    " \
+    runtimeDeps=" \
+        curl \
+        git \
+        vim \
+        nano \
+        htop \
+    " \
+    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps
+
+RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.19-1_all.deb
+RUN dpkg -i mysql-apt-config_0.8.19-1_all.deb
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install -y mariadb-client
 
 ENV GOPATH='/go-workspace'
 ENV GOBIN=${GOPATH}/bin
