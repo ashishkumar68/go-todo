@@ -4,26 +4,38 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+	"github.com/google/uuid"
 )
 
 type Task struct {
 	gorm.Model
-	description string
-	dueAt       time.Time
+	Uuid        string
+	Description string
+	DueAt       time.Time
 }
 
-func (t Task) GetDescription() string {
-	return t.description
-}
-
-func (t *Task) SetDescription(description string) *Task {
-	t.description = description
-	return t
-}
-
-func CreateTaskByValues(description string, dueAt time.Time) *Task {
+func CreateTaskByValues(Description string, DueAt time.Time) *Task {
 	return &Task{
-		description: description,
-		dueAt:       dueAt,
+		Description: Description,
+		DueAt:       DueAt,
+		Uuid:        uuid.NewString(),
 	}
+}
+
+func (T *Task) GetDescription() string {
+	return T.Description
+}
+
+func (T *Task) SetDescription(Description string) *Task {
+	T.Description = Description
+	return T
+}
+
+func (T *Task) GetDueAt() time.Time {
+	return T.DueAt
+}
+
+func (T *Task) SetDueAt(DueAt time.Time) *Task {
+	T.DueAt = DueAt
+	return T
 }

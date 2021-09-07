@@ -12,14 +12,19 @@ import (
 	"gorm.io/gorm"
 )
 
+func init() {
+	go runMigration()
+}
+
 func runMigration() {
 	db, _ := gorm.Open(mysql.Open(os.Getenv("DB_DSN")), &gorm.Config{})
-	db.AutoMigrate(&model.Task{})
-	fmt.Println("Migrations were executed successully.")
+	db.Migrator().DropTable(&model.Task{})
+	db.Migrator().CreateTable(&model.Task{})
+
+	fmt.Println("Migrations were executed successully. ")
 }
 
 func main() {
-	go runMigration()
 	port := "8080"
 	r := mux.NewRouter()
 	r.HandleFunc("/api/tasks", controller.CreateTaskHandler).Methods("POST")
