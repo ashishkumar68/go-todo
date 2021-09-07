@@ -3,8 +3,8 @@ package model
 import (
 	"time"
 
-	"gorm.io/gorm"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Task struct {
@@ -15,10 +15,14 @@ type Task struct {
 }
 
 func CreateTaskByValues(Description string, DueAt time.Time) *Task {
+	newUuid, err := uuid.NewRandom()
+	if err != nil {
+		panic(err)
+	}
 	return &Task{
 		Description: Description,
 		DueAt:       DueAt,
-		Uuid:        uuid.NewString(),
+		Uuid:        newUuid.String(),
 	}
 }
 
