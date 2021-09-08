@@ -27,9 +27,9 @@ func runMigration() {
 func main() {
 	port := "8080"
 	r := mux.NewRouter()
-	r.HandleFunc("/api/tasks", controller.CreateTaskHandler).Methods("POST")
-	r.HandleFunc("/api/tasks/{taskId}", controller.GetTaskHandler).Methods("GET")
-	r.HandleFunc("/api/tasks", controller.GetTasksList).Methods("GET")
+	r.HandleFunc("/api/tasks", controller.CreateTaskAction).Methods("POST")
+	r.HandleFunc("/api/tasks/{taskId}", controller.GetTaskAction).Methods("GET")
+	r.HandleFunc("/api/tasks", controller.GetTasksAction).Methods("GET")
 
 	fmt.Println("running server on port", port)
 	http.Handle("/", r)

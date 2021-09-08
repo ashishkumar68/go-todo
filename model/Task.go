@@ -4,13 +4,16 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
+// https://v1.gorm.io/docs/models.html#Declaring-Models
 type Task struct {
-	gorm.Model
-	Uuid        string
-	Description string
+	ID          uint `gorm:"primarykey;AUTO_INCREMENT"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   time.Time `gorm:"index"`
+	Uuid        string    `gorm:"type:varchar(36);unique_index"`
+	Description string    `gorm:"type:varchar(512)"`
 	DueAt       time.Time
 }
 
