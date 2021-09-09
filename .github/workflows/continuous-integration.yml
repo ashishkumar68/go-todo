@@ -1,0 +1,16 @@
+name: "Todo-App continuous Integration"
+
+on: [ push ]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo.
+        uses: actions/checkout@v2
+      - name: Build containers.
+        run: docker-compose up -d --build --force-recreate
+      - name: Wait for sometime[15 sec] until containers are ready.
+        run: sleep 15
+      - name: Run unit tests.
+        run: docker container exec todo-app bin/run-unit-tests.sh
