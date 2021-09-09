@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build containers.
         run: docker-compose up -d --build --force-recreate
-      - name: Wait for sometime[15 sec] until containers are ready.
-        run: sleep 15
+      - name: Wait for sometime[25 sec] until containers are ready.
+        run: sleep 25
       - name: Run unit tests.
         run: docker container exec todo-app bin/run-unit-tests.sh
