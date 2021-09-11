@@ -3,13 +3,11 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/ashishkumar68/go-todo/controller"
+	"github.com/ashishkumar68/go-todo/database"
 	"github.com/ashishkumar68/go-todo/model"
 	"github.com/gorilla/mux"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func init() {
@@ -17,11 +15,11 @@ func init() {
 }
 
 func runMigration() {
-	db, _ := gorm.Open(mysql.Open(os.Getenv("DB_DSN")), &gorm.Config{})
+	db, _ := database.GetManager()
 	db.Migrator().DropTable(&model.Task{})
 	db.Migrator().CreateTable(&model.Task{})
 
-	fmt.Println("Migrations were executed successully. ")
+	fmt.Println("Migrations were executed successully.")
 }
 
 func main() {
