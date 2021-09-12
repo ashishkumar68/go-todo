@@ -17,15 +17,21 @@ type Task struct {
 	DueAt       time.Time
 }
 
-func CreateTaskByValues(Description string, DueAt time.Time) *Task {
-	newUuid, err := uuid.NewRandom()
-	if err != nil {
-		panic(err)
+func CreateTaskByValues(newUuid string, description string, dueAt time.Time) *Task {
+	if newUuid == "" {
+		nUuid, err := uuid.NewRandom()
+		if err != nil {
+			panic(err)
+		}
+		newUuid = nUuid.String()
 	}
+
 	return &Task{
-		Description: Description,
-		DueAt:       DueAt,
-		Uuid:        newUuid.String(),
+		Description: description,
+		DueAt:       dueAt,
+		Uuid:        newUuid,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 }
 

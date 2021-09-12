@@ -2,16 +2,12 @@ package database
 
 import (
 	"os"
-	"sync"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-var (
-	connection *gorm.DB
-	once       *sync.Once
-)
+var connection *gorm.DB
 
 func GetManager() (*gorm.DB, error) {
 	if connection != nil {
