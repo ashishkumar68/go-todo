@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/ThreeDotsLabs/watermill v1.1.1
+	github.com/gogolfing/cbus v3.1.0+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.7.0

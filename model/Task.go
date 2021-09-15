@@ -8,13 +8,13 @@ import (
 
 // https://v1.gorm.io/docs/models.html#Declaring-Models
 type Task struct {
-	ID          uint `gorm:"primarykey;AUTO_INCREMENT"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	DeletedAt   time.Time `gorm:"index"`
-	Uuid        string    `gorm:"type:varchar(36);unique_index"`
-	Description string    `gorm:"type:varchar(512)"`
-	DueAt       time.Time
+	ID          uint       `gorm:"primarykey;AUTO_INCREMENT" json:"id"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `gorm:"index;default:null" json:"deletedAt,omitempty"`
+	Uuid        string     `gorm:"type:varchar(36);unique_index" json:"uuid"`
+	Description string     `gorm:"type:varchar(512)" json:"description"`
+	DueAt       time.Time  `json:"dueAt"`
 }
 
 func CreateTaskByValues(newUuid string, description string, dueAt time.Time) *Task {

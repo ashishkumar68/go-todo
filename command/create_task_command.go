@@ -14,6 +14,10 @@ type CreateTaskCommand struct {
 	DueAt       time.Time `validate:"required" json:"dueAt"`
 }
 
+func (cmd *CreateTaskCommand) Type() string {
+	return "CreateTaskCommand"
+}
+
 func CreateTaskCommandByStreamContent(data []byte) (*CreateTaskCommand, error) {
 	var command CreateTaskCommand
 	err := json.Unmarshal(data, &command)

@@ -21,3 +21,14 @@ func SendInternalServerError(w http.ResponseWriter) error {
 
 	return nil
 }
+
+func SendCreated(w http.ResponseWriter, data []byte) error {
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(201)
+	_, err := w.Write(data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
