@@ -3,7 +3,6 @@ module github.com/ashishkumar68/go-todo
 go 1.17
 
 require (
-	github.com/ThreeDotsLabs/watermill v1.1.1
 	github.com/gogolfing/cbus v3.1.0+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
@@ -13,6 +12,7 @@ require (
 )
 
 require (
+	github.com/ThreeDotsLabs/watermill v1.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
