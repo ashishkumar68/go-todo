@@ -57,3 +57,7 @@ func CreateTaskCommandByValues(
 		DueAt:       dueAt,
 	}, nil
 }
+
+func (cmd CreateTaskCommand) GetUuidBytes() []byte {
+	return []byte(cmd.Uuid)
+}

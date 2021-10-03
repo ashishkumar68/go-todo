@@ -32,13 +32,19 @@ func GetTaskHandler() *CreateTaskHandler {
 func (handler CreateTaskHandler) Handle(ctx context.Context, c cbus.Command) (interface{}, error) {
 	cmd := c.(*command.CreateTaskCommand)
 
-	task := model.CreateTaskByValues(cmd.Uuid, cmd.Description, cmd.DueAt)
-	handler.manager.Transaction(func(tx *gorm.DB) error {
+	task, err := model.CreateTaskByValues(cmd.GetUuidBytes(), cmd.Description, cmd.DueAt)
+	if err != nil {
+		return nil, err
+	}
+	err = handler.manager.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(task).Error; err != nil {
 			return err
 		}
 		return nil
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return task, nil
 }

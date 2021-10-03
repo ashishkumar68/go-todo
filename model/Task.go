@@ -1,38 +1,39 @@
 package model
 
 import (
+	"errors"
+	"fmt"
 	"time"
+)
 
-	"github.com/google/uuid"
+var (
+	newTaskError = errors.New("Could not create new task.")
 )
 
 // https://v1.gorm.io/docs/models.html#Declaring-Models
 type Task struct {
-	ID          uint       `gorm:"primarykey;AUTO_INCREMENT" json:"id"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `gorm:"index;default:null" json:"deletedAt,omitempty"`
-	Uuid        string     `gorm:"type:varchar(36);unique_index" json:"uuid"`
+	Identity
+	CreatedMetaInfo
+	UpdatedMetaInfo
+	DeletedMetaInfo
+
 	Description string     `gorm:"type:varchar(512)" json:"description"`
 	DueAt       time.Time  `json:"dueAt"`
 }
 
-func CreateTaskByValues(newUuid string, description string, dueAt time.Time) *Task {
-	if newUuid == "" {
-		nUuid, err := uuid.NewRandom()
-		if err != nil {
-			panic(err)
-		}
-		newUuid = nUuid.String()
+func CreateTaskByValues(newUuid []byte, description string, dueAt time.Time) (*Task, error) {
+	newIdentity , err := GetNewIdentity(newUuid)
+	if err != nil {
+		fmt.Println(newTaskError.Error())
+		fmt.Println(err)
+		return nil, err
 	}
 
 	return &Task{
+		Identity: *newIdentity,
 		Description: description,
 		DueAt:       dueAt,
-		Uuid:        newUuid,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-	}
+	}, nil
 }
 
 func (T *Task) GetDescription() string {
